@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Expone el puerto (ajústalo si cambiaste)
-EXPOSE 5075
+EXPOSE 80
 
 # Comando para iniciar la app
 ENTRYPOINT ["dotnet", "LecturasAPI.dll"]
