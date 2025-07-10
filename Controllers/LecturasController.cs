@@ -29,29 +29,23 @@ namespace LecturasApi.Controllers
         public int MedidorId { get; set; }
         public int NumeroMedidor { get; set; }
         public string TipoMedidor { get; set; }
-        public string ClienteNombre { get; set; }
         }
 
         // GET: api/lecturas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LecturaResponseDTO>>> GetLecturas()
         {
-            var lecturas = await _context.Lecturas
-                .Include(l => l.Medidor)
-                .ThenInclude(m => m.Cliente)
-                .ToListAsync();
-
-            var dtos = lecturas.Select(l => new LecturaResponseDTO
-            {
-                Id = l.Id,
-                Fecha = l.Fecha,
-                Valor = l.Valor,
-                MedidorId = l.MedidorId,
-                NumeroMedidor = l.Medidor.Numero,
-                TipoMedidor = l.Medidor.Tipo,
-                ClienteNombre = l.Medidor.Cliente != null ? l.Medidor.Cliente.Nombre : ""
-            });
-
+            var dtos = await (from l in _context.Lecturas
+                              join m in _context.Medidores on l.MedidorId equals m.Id
+                              select new LecturaResponseDTO
+                              {
+                                  Id = l.Id,
+                                  Fecha = l.Fecha,
+                                  Valor = l.Valor,
+                                  MedidorId = l.MedidorId,
+                                  NumeroMedidor = m.Numero,
+                                  TipoMedidor = m.Tipo
+                              }).ToListAsync();
             return Ok(dtos);
         }
 
