@@ -19,4 +19,4 @@ COPY --from=build /app/out .
 EXPOSE 80
 
 # Comando para iniciar la app
-ENTRYPOINT ["dotnet", "LecturasAPI.dll"]
+ENTRYPOINT ["dotnet", "LecturasApi.dll"]
