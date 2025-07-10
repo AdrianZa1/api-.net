@@ -1,0 +1,6 @@
+@LecturasApi_HostAddress = http://localhost:5075
+
+GET {{LecturasApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
